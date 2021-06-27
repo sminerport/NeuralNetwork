@@ -3,30 +3,28 @@ import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 
 PCT_TRAINING = 80
-EPOCHS = 1000
+EPOCHS = 10000
 
 class neural_network(object):
   def __init__(self):
     #parameters
-    self.inputSize = 2
-    self.outputSize = 1
-    self.hiddenSize = 3
+    self.inputLayerSize = 2
+    self.outputLayerSize = 1
+    self.hiddenLayerSize = 3
 
     #weights
     # weight matrix of dimension (size of layer l, size of layer l-1)
 
     # weight matrix from input to hidden layer
-  
-    self.W1 = np.random.randn(self.inputSize, self.hiddenSize) 
+    self.W1 = np.random.randn(self.inputLayerSize, self.hiddenLayerSize) 
     # weight matrix from hidden to output layer
-
-    self.W2 = np.random.randn(self.hiddenSize, self.outputSize)
+    self.W2 = np.random.randn(self.hiddenLayerSize, self.outputLayerSize)
 
     # bias vector of dimension (size of layer l, 1)
     # bias vector from input to hidden layer
-    # self.b1 = np.zeros((1, self.hiddenSize))
+    # self.b1 = np.zeros((1, self.hiddenLayerSize))
     # bias vector from hidden to output layer
-    # self.b2 = np.zeros((self.inputSize, 1))
+    # self.b2 = np.zeros((self.inputLayerSize, 1))
 
   def forward(self, X):
     # forward propagation through our network
@@ -39,14 +37,6 @@ class neural_network(object):
     # final activation function
     o = self.sigmoid(self.z3) 
     return o
-
-  def sigmoid(self, s):
-    # activation function
-    return 1/(1+np.exp(-s))
-
-  def sigmoidPrime(self, s):
-    #derivative of sigmoid
-    return s * (1 - s)
 
   def backward(self, X, y, o):
     # backward propagate through the network
@@ -61,19 +51,28 @@ class neural_network(object):
     self.W1 += X.T.dot(self.z2_delta) # adjusting first set (input --> hidden) weights
     self.W2 += self.z2.T.dot(self.o_delta) # adjusting second set (hidden --> output) weights
 
+  def sigmoid(self, s):
+    # activation function
+    return 1/(1+np.exp(-s))
+
+  def sigmoidPrime(self, s):
+    #derivative of sigmoid
+    return s * (1 - s)
+
   def train(self, X, y):
     o = self.forward(X)
     self.backward(X, y, o)
-
-  def saveWeights(self):
-    np.savetxt("w1.txt", self.W1, fmt="%s")
-    np.savetxt("w2.txt", self.W2, fmt="%s")
 
   def predict(self):
     print("Predicted data based on trained weights: ")
     print('Validation Data Input: \n' + str(scaler_x.inverse_transform(x_validation)))
     #print("Input (scaled): \n" + str(x_validation))
     print("Validation Data Output: \n" + str(scaler_y.inverse_transform(self.forward(x_validation))))
+
+  def saveWeights(self):
+    np.savetxt("w1.txt", self.W1, fmt="%s")
+    np.savetxt("w2.txt", self.W2, fmt="%s")
+
 
 # sequence is the user input
 seq = [int(x) for x in input('Input a series of numbers separated by spaces (Press enter when done): ').split()]
@@ -109,16 +108,15 @@ y_to_pass_to_train_function = y_trans[:splitPoint,:]
 
 nn = neural_network()
 
-for i in range(EPOCHS): # trains the nn 1,000 times
+for i in range(EPOCHS): # trains the nn 
   print("# " + str(i) + "\n")
   print("Training Data Input: \n" + str(scaler_x.inverse_transform(X_train)))
-# print("Input (scaled): \n" + str(X))
   print("Training Data Output: \n" + str(scaler_y.inverse_transform(y_to_pass_to_train_function)))
-# print("Actual Output (scaled): \n" + str(y))
   print("Training Data Predicted Output: \n" + str(scaler_y.inverse_transform(nn.forward(X_train))))
-# print("Predicted Output (scaled): \n" + str(nn.forward(X)))
-# print("Loss: \n" + str(np.mean(np.square(y - nn.forward(X))))) # mean squared error
-  print("\n")
+
+  # mean squared error
+  print("Loss: \n" + str(np.mean(np.square(y_to_pass_to_train_function - nn.forward(X_train))))) 
+  #print("\n")
   nn.train(X_train, y_to_pass_to_train_function)
 
 nn.saveWeights()
