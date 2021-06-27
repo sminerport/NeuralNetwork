@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 
-# X = (hours studying, hours sleeping), y = score on test
+
 x_all = np.array(([0, 1], [1, 2], [2, 3], [3, 4]), dtype=float) # input data
 y = np.array(([2], [3], [4]), dtype=float) # output
 
