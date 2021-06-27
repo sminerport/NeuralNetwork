@@ -2,8 +2,8 @@ import math
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 
-PCT_TRAINING = 80
 EPOCHS = 10000
+PCT_TRAINING = 80
 
 class neural_network(object):
   def __init__(self):
@@ -67,7 +67,7 @@ class neural_network(object):
     print("Predicted data based on trained weights: ")
     print('Validation Data Input: \n' + str(scaler_x.inverse_transform(x_validation)))
     #print("Input (scaled): \n" + str(x_validation))
-    print("Validation Data Output: \n" + str(scaler_y.inverse_transform(self.forward(x_validation))))
+    print("Validation Data Predicted Output: \n" + str(scaler_y.inverse_transform(self.forward(x_validation))))
 
   def saveWeights(self):
     np.savetxt("w1.txt", self.W1, fmt="%s")
@@ -75,6 +75,69 @@ class neural_network(object):
 
 
 # sequence is the user input
+print()
+print()
+print("**************************************************************************************")
+print("*                                                                                    *")
+print("*        ARTIFICIAL NEURAL NETWORK (ANN) TO GUESS THE NEXT NUMBER IN A SERIES        *")
+print("*                                                                                    *")
+print("**************************************************************************************")
+print("*                                                                                    *")
+print("* User Input (Below):                                                                *")
+print("*    At the prompt below please input a sequence of numbers, each separated by a     *")
+print("*    space before pressing 'Enter' (e.g., 6 8 10 12 14 16 18).                       *")
+print("*                                                                                    *")
+print("* Default Values:                                                                    *")
+print("*    EPOCHS     = 1,000                                                              *")
+print("*    Training   = 80%                                                                *")
+print("*    Validation = 20%                                                                *")
+print("*                                                                                    *")
+print("* Activation Function:                                                               *")
+print("*    Sigmoid                                                                         *")
+print("*                                                                                    *")
+print("* Loss Function:                                                                     *")
+print("*    Mean Square Error (MSE)                                                         *")
+print("*                                                                                    *")
+print("* ANN Layers:                                                                        *")
+print("*    * Converted Input: 2 Neurons (X, N)                                             *")
+print("*    *          Hidden: 3 Neuons                                                     *")
+print("*    *          Output: 1 Neuron (prediction)                                        *")
+print("*                                                                                    *")
+print("**************************************************************************************")
+print("*                                                                                    *")
+print("* Instructions & Methodology:                                                        *")
+print("*     Input a series of numbers each separated by a space (e.g., 2 4 6 8 10).        *")
+print("*     When finished inputing numbers press 'Enter'. The Artificial Neural            *")
+print("*     Network (ANN) converts the input to a series of matrix rows and                *")
+print("*     calculates a predicted outcome for each (x, y) coordinate pair                 *")
+print("*     (e.g., (0,2),(1,4),(2,6),(3,8),(4,10) ) over 1,000 epochs.  Users can update   *")
+print("*     the EPOCHS and PCT_TRAINING const variables set to 1000 and 80 by default,     *")
+print("*     respectively.  The PCT_TRAINING variable splits the input data into 80%        *")
+print("*     training and 20% validation datasets.  The ANN applies the sigmoid activation  *")
+print("*     function for every hidden layer during forward-propagation and applies the     *")
+print("*     derivative of this function (e.g., sigmoid prime) for every hidden layer       *")
+print("*     during back-propagation.  The ANN contains three layers: (a) input layer,      *")
+print("*     (b) hidden layer, and (c) output layer.  The input layer contains 2 neurons:   *")
+print("*     one for each x and y coordinate.  The hidden layer contains a default of 3     *")
+print("*     neurons but can be updated to any number.  The output layer contains 1 neuron, *")
+print("*     which represents the ANN's prediction for a given set of inputs (e.g., X and   *")
+print("*     Y coordinates).  The ANN calculates the loss and updates the W1 and W2         *")
+print("*     matrices based on the output from this loss function.  Once the ANN has        *")
+print("*     completed the specified number of training epochs, it uses the validation data *")
+print("*     to make predictions based on the newly updated training weights.               *")
+print("*                                                                                    *")
+print("* Output:                                                                            *")
+print("*     The ANN outputs the training data, its actual output (based on the input),     *")
+print("*     the ANN's prediction, and the Loss for each epoch of 1,000.  The Mean Square   *")
+print("*     Error (MSE) is used to calculate the loss, which users can see decrease over   *")
+print("*     successive iterations as the ANN applies the loss function to adjust the       *")
+print("*     weight matrices via matrix multiplication, accordingly. Once the ANN has       *")
+print("*     completed the specified number of training epochs (default is 1,000) the ANN   *")
+print("*     outputs predictions based on the validation data using the newly trained       *")
+print("*     weights.                                                                       *")
+print("*                                                                                    *")  
+print("**************************************************************************************")
+print()
 seq = [int(x) for x in input('Input a series of numbers separated by spaces (Press enter when done): ').split()]
 
 # create record id
